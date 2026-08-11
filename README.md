@@ -285,8 +285,7 @@ A strong short demo is:
 **Asma Ahmed Syrotikin**  
 Creator and developer of LunaGuard.
 
-https://github.com/asma675/LunaGaurd-/edit/main/README.md
-
+https://github.com/asma675/LunaGaurd
 ---
 
 ## License

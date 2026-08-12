@@ -1,0 +1,45 @@
+{
+  "_description": "Deterministic judge-demo baseline for South Pole Survey Alpha (seed=42). Values are prototype model outputs, not flight-performance claims.",
+  "profiles": {
+    "FASTEST": {
+      "path_cells": 30,
+      "distance_m": 3479.9,
+      "energy_wh": 263.9,
+      "battery_reserve_percent": 86.2,
+      "max_slope_deg": 25.0,
+      "mean_hazard": 0.313,
+      "risk_score": 45.3,
+      "mission_success_score": 59.7,
+      "viable": true
+    },
+    "LOWEST_ENERGY": {
+      "path_cells": 30,
+      "distance_m": 3479.9,
+      "energy_wh": 262.7,
+      "battery_reserve_percent": 86.2,
+      "max_slope_deg": 25.0,
+      "mean_hazard": 0.323,
+      "risk_score": 45.7,
+      "mission_success_score": 59.3,
+      "viable": true
+    },
+    "SAFEST": {
+      "path_cells": 30,
+      "distance_m": 3479.9,
+      "energy_wh": 266.5,
+      "battery_reserve_percent": 86.1,
+      "max_slope_deg": 13.4,
+      "mean_hazard": 0.302,
+      "risk_score": 31.0,
+      "mission_success_score": 74.0,
+      "viable": true,
+      "recommended": true
+    }
+  },
+  "emergency_demo": {
+    "type": "TERRAIN_OBSTRUCTION",
+    "trigger": "during active SAFEST traverse",
+    "blocked_cells": 5,
+    "expected_behavior": "original remaining route becomes non-viable; viable recovery path is planned from current rover position; recommendation is FOLLOW_RECOVERY_ROUTE"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "South Pole Survey Alpha",
+  "description": "Judge demo mission on deterministic synthetic lunar terrain",
+  "start": { "row": 31, "col": 7 },
+  "destination": { "row": 17, "col": 36 },
+  "rover": {
+    "battery_capacity_wh": 3000,
+    "battery_percent": 95,
+    "emergency_reserve_percent": 15,
+    "base_energy_per_metre": 0.05,
+    "max_slope_deg": 25,
+    "speed_mps": 0.5,
+    "risk_tolerance": 0.5
+  },
+  "_meta": {
+    "terrain": "Synthetic deterministic terrain (seed=42)",
+    "grid": "100x100 cells, 100m/cell",
+    "total_area": "10km x 10km",
+    "note": "SYNTHETIC demo terrain — not real mission data"
+  }
+}

@@ -1,245 +1,65 @@
 # LunaGuard
 ## Explainable Resilient Autonomy for Lunar Missions
 
-> **Selected Challenge Theme:** August Challenge — **Advance Space Exploration with AI**
+> **AI Builders Challenge with IBM Bob — August 2026: Advance Space Exploration with AI**
 
-LunaGuard is a human-in-the-loop lunar mission decision-support platform for rover route planning, risk-aware recovery, mission simulation, and operator intelligence. It compares multiple route strategies, exposes the trade-offs behind each recommendation, simulates failures during a mission, replans from the rover's current position, and preserves an operator-readable mission timeline.
+LunaGuard is a full-stack lunar mission decision-support platform. It plans rover routes, compares energy/risk/time trade-offs, simulates mid-mission failures, replans from the rover's live position, keeps an operator-readable decision timeline, and uses **IBM watsonx.ai + Granite** to turn deterministic mission evidence and authoritative NASA / Canadian Space Agency source material into grounded mission intelligence.
 
-**IBM Bob was used as the primary development environment for the original LunaGuard codebase and its full-stack iteration workflow.**
+**IBM Bob was used as the primary development tool.** LunaGuard is a prototype for simulation and decision support, not a certified flight system.
 
----
+## Why LunaGuard is different
 
-## Problem statement
-
-Lunar rover navigation is not simply a shortest-path problem. Mission teams must balance terrain slope, hazard exposure, travel time, energy use, battery reserve, and changing rover capability. A route that is safe when a mission begins can become unsafe after a battery loss, mobility degradation, or newly detected terrain obstruction.
-
-Operators therefore need more than a route line on a map. They need:
-
-- multiple viable alternatives,
-- transparent trade-offs,
-- fast reassessment when conditions change,
-- clear evidence behind recommendations,
-- source-aware mission guidance,
-- and an audit trail of what changed and why.
-
----
-
-## Solution
-
-LunaGuard combines deterministic mission planning with explainable AI-assisted decision support in a multi-page mission-operations console.
-
-The platform can:
-
-- generate **FASTEST**, **LOWEST_ENERGY**, and **SAFEST** route profiles;
-- compute distance, travel time, energy use, projected battery reserve, maximum slope, hazard/risk, viability, and mission-success evidence;
-- visualize terrain, route alternatives, and rover constraints;
-- simulate an active mission in a **Digital Twin Lab**;
-- inject battery, mobility, and terrain-obstruction failures;
-- replan from the rover's current position after an anomaly;
-- record planning, AI, anomaly, recovery, and telemetry events in a **Mission Timeline**;
-- provide an interactive **3D Lunar Globe** with toggleable visualization layers;
-- provide a **Mission Copilot** grounded in NASA and Canadian Space Agency source material;
-- optionally use **IBM watsonx.ai + Granite** for generated mission narration when credentials are configured;
-- remain functional with a labeled deterministic fallback when cloud AI is unavailable.
-
-The core resilience loop is:
+Most route demos stop at `start → destination`. LunaGuard demonstrates a complete resilient-autonomy loop:
 
 **plan → compare → explain → authorize → simulate → fail → reassess → recover → audit**
 
----
+The safety-critical boundary is deliberate: **Granite explains the decision; it does not invent the physics.** Route geometry, energy, slope, hazard, viability, and mission-success metrics are computed deterministically by the backend.
 
-## AI approach and architecture
+## Competition-ready pages
 
-LunaGuard deliberately separates safety-relevant calculations from generative narration.
-
-### 1. Classic AI search for route planning
-
-The backend uses constrained weighted A* search to find rover routes under different mission objectives. Each route profile uses the same hard terrain and slope constraints but optimizes different operational priorities.
-
-### 2. Deterministic mission evidence
-
-The backend computes mission metrics before any generative-AI call:
-
-- route geometry,
-- distance,
-- estimated time,
-- energy required,
-- projected battery reserve,
-- maximum encountered slope,
-- hazard/risk score,
-- viability,
-- warnings and constraint violations.
-
-### 3. Emergency reassessment
-
-When mission conditions change, LunaGuard applies the new constraints and replans from the rover's current position rather than restarting the mission from the original start point.
-
-### 4. Grounded mission intelligence
-
-The Mission Copilot uses curated NASA / Canadian Space Agency source references and mission context. When IBM watsonx.ai credentials are configured, IBM Granite can generate concise operator-facing explanations. When cloud inference is unavailable, LunaGuard uses a clearly labeled deterministic fallback rather than pretending a model response is live.
-
-### 5. Human-in-the-loop control
-
-LunaGuard recommends and explains. The operator retains decision authority.
-
-> **Design principle:** Granite explains the decision; it does not invent the physics.
-
-### Architecture
-
-```mermaid
-graph LR
-  U[Mission Operator] --> UI[Next.js / TypeScript Console]
-  UI --> API[FastAPI Backend]
-  API --> P[Weighted A* Planner]
-  API --> E[Emergency Replanner]
-  API --> T[Terrain Service]
-  API --> S[NASA / CSA Source Service]
-  API --> A[Auth Service]
-  P --> D[Deterministic Mission Evidence]
-  E --> D
-  D --> UI
-  S --> C[Mission Copilot]
-  D --> C
-  C -. optional .-> W[IBM watsonx.ai / Granite]
-  C --> UI
-```
-
----
-
-## Selected challenge theme
-
-**August Challenge — Advance Space Exploration with AI**
-
-LunaGuard directly addresses space mission planning and decision support by helping rover operators turn terrain and mission constraints into understandable route choices, respond to anomalies, and preserve a traceable record of decisions.
-
----
-
-## How IBM Bob was used
-
-IBM Bob was the **primary development environment for the original LunaGuard codebase** and was used throughout the software-development lifecycle.
-
-### Ideation and architecture
-
-IBM Bob helped turn the initial concept of an AI-assisted lunar rover route planner into a full-stack architecture using:
-
-- Next.js / React / TypeScript,
-- FastAPI / Python,
-- typed mission and terrain contracts,
-- weighted A* route planning,
-- energy and risk scoring,
-- emergency reassessment,
-- Docker Compose deployment.
-
-### Backend implementation
-
-Bob was used to scaffold and iterate on:
-
-- FastAPI endpoints,
-- Pydantic request/response models,
-- terrain generation and validation,
-- route-planning logic,
-- emergency-event models,
-- recovery planning,
-- automated backend tests.
-
-### Frontend implementation
-
-Bob was used to build and refine:
-
-- mission configuration and rover constraints,
-- terrain and route visualization,
-- route comparison,
-- telemetry and mission execution,
-- emergency recovery UX,
-- multi-page mission-console organization,
-- API integration and error handling.
-
-### Debugging and hardening
-
-Bob supported an iterative inspect → run → diagnose → patch → test workflow across issues such as frontend/backend schema drift, Docker health checks, structured logging, TypeScript build errors, timer types, emergency-event contracts, and runtime React errors.
-
-### Documentation and deployment
-
-Bob was also used for project documentation, Docker deployment configuration, testing workflows, and architecture notes.
-
-**Evidence to include in the public repository or demo:** screenshots or short clips of the real IBM Bob workspace/history used while developing LunaGuard.
-
----
-
-## Main product pages
-
-| Page | Purpose |
+| Page | Judge-visible capability |
 |---|---|
-| **Dashboard** | Mission overview, platform health, and quick access to core workflows |
-| **Mission Planner** | Route planning, trade-off analysis, terrain, rover constraints, and mission execution |
-| **Mission Timeline** | Operator-readable audit trail of planning, AI, anomalies, telemetry, and recovery |
-| **Digital Twin Lab** | End-to-end simulated mission with live telemetry, anomaly injection, and replanning |
-| **3D Lunar Globe** | Interactive lunar visualization with rotating globe and toggleable layers |
-| **AI Mission Copilot** | Source-grounded mission Q&A with optional IBM Granite narration |
-| **Data Sources** | NASA / CSA provenance, source status, and limitations |
-| **Login / Profile** | Prototype operator authentication and profile workflow |
+| **Dashboard** | Executive mission view, platform architecture, IBM AI status, quick access to each capability |
+| **Mission Planner** | Original LunaGuard terrain planner with FASTEST / LOWEST_ENERGY / SAFEST trade studies, route evidence, execution and emergency recovery |
+| **Mission Timeline** | NASA-style audit trail for planning, operator actions, AI decisions, anomalies, telemetry, and recovery events |
+| **Digital Twin Lab** | End-to-end simulated traverse with live telemetry, dynamic failure injection, real backend replanning, and post-recovery completion |
+| **3D Lunar Globe** | Interactive lunar sphere with toggleable topography/relief/illumination/grid/mission-marker visual layers and explicit provenance labels |
+| **AI Mission Copilot** | IBM Granite on watsonx.ai, grounded in listed NASA LRO/LOLA, NASA DONKI, and CSA rover-analogue sources; deterministic fallback if cloud AI is unavailable |
+| **Data Sources** | Source status, provenance, limitations, and the path from synthetic demo terrain to mission-grade datasets |
+| **Login / Profile** | Local prototype accounts plus optional Google Identity Services sign-in; persistent backend sessions |
+
+## Judging criteria map
+
+| Criterion | LunaGuard evidence |
+|---|---|
+| **Technical Execution** | Next.js + TypeScript frontend, FastAPI backend, weighted A* route planning, deterministic energy/risk constraints, emergency replanning, digital twin, source-grounded AI, SQLite auth, Docker, typed API adapters |
+| **Innovation** | Explainable resilient autonomy rather than a single-path demo: failure injection, recovery, audit timeline, and a grounded mission copilot in one platform |
+| **Challenge Fit** | Directly supports lunar mission planning, rover safety, decision support, anomaly response, and translation of complex space data into actionable guidance |
+| **Feasibility** | Hard safety constraints remain deterministic; AI is bounded to narration/retrieval; cloud dependencies degrade gracefully; real data sources are separated from synthetic demo data |
+| **Real-World Impact** | Architecture can evolve toward validated lunar DEM ingestion, telemetry streams, mission audit storage, uncertainty models, and role-based mission operations |
+
+See [`docs/JUDGING.md`](docs/JUDGING.md) for the detailed evidence map and [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md) for a three-minute judge demo.
 
 ---
 
-## Data provenance and responsible AI
+## Start in Windows
 
-LunaGuard clearly separates real source references from simulated mission data.
-
-- Route-planning terrain is **synthetic deterministic demo terrain** for reproducibility.
-- Globe layers are visualization proxies and are not presented as raw NASA imagery.
-- The Mission Copilot references NASA LRO / LOLA, NASA space-weather information, and Canadian Space Agency rover-analogue / open-data material.
-- Generated AI narration is not allowed to override deterministic route viability or safety metrics.
-- Cloud AI failure does not prevent mission planning or emergency recovery.
-
----
-
-## Technology stack
-
-### Frontend
-- Next.js 14
-- React
-- TypeScript
-- Tailwind CSS
-- Recharts
-
-### Backend
-- Python
-- FastAPI
-- Pydantic
-- NumPy
-- SQLite-based prototype authentication
-
-### AI / IBM
-- **IBM Bob** — primary development environment
-- **IBM watsonx.ai + Granite** — optional runtime mission narration / Copilot generation when configured
-- Weighted A* — classic AI search for mission route planning
-
-### Data / integration
-- NASA LRO / LOLA references
-- NASA space-weather source integration
-- Canadian Space Agency rover-analogue / open-data references
-- Docker Compose
-
----
-
-## Run locally
-
-### Requirements
-
-- Docker Desktop
-- Docker Compose
-
-### Start
+1. Open **Docker Desktop** and wait for the engine to be running.
+2. Open PowerShell in the extracted LunaGuard folder.
+3. Run:
 
 ```powershell
 docker compose up -d --build
+docker compose ps
 ```
 
 Then open:
 
-- App: `http://localhost:3000`
-- API docs: `http://localhost:8000/docs`
+- LunaGuard: `http://localhost:3000`
+- FastAPI docs: `http://localhost:8000/docs`
 - Backend health: `http://localhost:8000/health`
+
+You can also double-click `START_LUNAGUARD.cmd`.
 
 Stop with:
 
@@ -247,47 +67,164 @@ Stop with:
 docker compose down
 ```
 
-Do not commit `.env` files or API keys.
+## Enable live IBM Granite
+
+Copy `.env.example` to `.env` and set:
+
+```env
+WATSONX_API_KEY=YOUR_IBM_CLOUD_API_KEY
+WATSONX_PROJECT_ID=YOUR_WATSONX_PROJECT_ID
+WATSONX_URL=https://us-south.ml.cloud.ibm.com
+WATSONX_MODEL_ID=ibm/granite-3-3-8b-instruct
+```
+
+Then rebuild:
+
+```powershell
+docker compose down
+docker compose up -d --build
+```
+
+The UI visibly reports whether the response came from **watsonx / Granite** or the **offline-safe deterministic fallback**.
+
+## Optional live NASA + Google configuration
+
+NASA DONKI uses `NASA_API_KEY`. `DEMO_KEY` is supplied by default for development, so no secret is required for the basic demo.
+
+Optional Google sign-in requires a Google OAuth Web client ID:
+
+```env
+GOOGLE_CLIENT_ID=YOUR_GOOGLE_WEB_CLIENT_ID
+```
+
+Configure `http://localhost:3000` as an authorized JavaScript origin in the Google Cloud OAuth client. Local email/password accounts work without Google configuration.
 
 ---
+
+## Core mission engine
+
+LunaGuard generates a deterministic 100×100 synthetic lunar-style terrain grid for the reproducible judge demo. The planner then produces three constrained A* profiles:
+
+- `FASTEST`
+- `LOWEST_ENERGY`
+- `SAFEST`
+
+Every profile must respect the rover's hard traversability and maximum-slope limits. The backend computes:
+
+- distance and estimated travel time
+- energy required and projected battery reserve
+- maximum slope encountered
+- average hazard and normalized risk
+- mission-success score
+- viability, warnings, and hard-constraint violations
+
+The emergency service can then reassess a mission after:
+
+- battery degradation
+- reduced mobility / slope capability
+- terrain obstruction
+- communication-delay scenarios supported by the API model
+
+The **Digital Twin Lab** uses these real planning/reassessment endpoints: it does not fake the route decision in the browser.
+
+## IBM AI architecture
+
+```text
+NASA / CSA source catalog ───────────────┐
+                                         │
+Mission context ─────────────────────────┼─> Grounded prompt
+                                         │        │
+Deterministic route evidence ────────────┘        ▼
+                                         IBM watsonx.ai
+                                      Granite 3.3 8B
+                                             │
+                                             ▼
+                                      Mission narration
+                                             │
+                       deterministic metrics remain authoritative
+```
+
+Two distinct AI experiences are exposed:
+
+1. **Mission Brief** — narrates a selected route's deterministic evidence.
+2. **Mission Copilot** — answers operator questions using mission context plus the listed NASA/CSA source summaries. It is explicitly instructed to distinguish source facts from inference and not invent telemetry or safety numbers.
+
+If watsonx is unavailable, both workflows degrade to deterministic fallback behavior so the route planner remains functional.
+
+## Data provenance
+
+The current route-planning terrain is **synthetic** and is deliberately labeled as such. The 3D globe contains generated visual proxies for lunar topography/relief/illumination; those pixels are **not** claimed to be raw NASA imagery.
+
+The Copilot source layer references authoritative public material, including:
+
+- NASA Lunar Reconnaissance Orbiter / LOLA science and data
+- NASA LRO data products / Planetary Data System pathways
+- NASA DONKI space-weather API
+- Canadian Space Agency Lunar Exploration Analogue Deployment rover data
+- best-effort live CSA open-data search
+
+See [`docs/RESPONSIBLE_AI.md`](docs/RESPONSIBLE_AI.md) and the in-app **Data Sources** page.
+
+## Authentication
+
+The hackathon prototype includes:
+
+- local registration and login
+- PBKDF2-HMAC-SHA256 password hashing with per-user salts
+- random bearer sessions stored by hash in SQLite
+- optional Google Identity Services login
+- persistent Docker volume for the auth database
+
+For a production deployment, use a managed identity provider, secure HTTP-only cookies, CSRF protections, rate limiting, account recovery, MFA, and centralized audit storage.
+
+## Architecture
+
+```mermaid
+graph LR
+  U[Operator] --> N[Next.js Mission UI]
+  N --> F[FastAPI]
+  F --> P[Constrained A* Planner]
+  F --> E[Emergency Replanner]
+  F --> T[Synthetic Terrain Service]
+  F --> A[Auth Service / SQLite]
+  F --> S[NASA + CSA Source Service]
+  S --> D[NASA DONKI / CSA CKAN]
+  F --> W[IBM watsonx.ai / Granite]
+  P --> X[Deterministic Evidence]
+  E --> X
+  X --> N
+  X --> W
+  W --> N
+```
+
+More detail: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## Repository structure
 
 ```text
-LunaGuard/
-├── backend/             FastAPI mission, planning, recovery, AI, source and auth services
-├── frontend/            Next.js multi-page mission operations console
-├── data/                demo data and source documentation
-├── demo/                repeatable mission demo assets
-├── docs/                architecture, API, responsible AI and IBM Bob documentation
-├── scripts/             validation / verification helpers
+lunaguard/
+├── backend/                 FastAPI planning, recovery, AI, auth and source services
+├── frontend/                Next.js multi-page mission operations console
+├── data/                    deterministic demo data assets
+├── demo/                    demo support material
+├── docs/                    judging, architecture, API, responsible AI, Bob usage
+├── scripts/                 verification scripts
 ├── docker-compose.yml
+├── START_LUNAGUARD.cmd
 └── README.md
 ```
 
----
+## Submission checklist
 
-## Demo flow
-
-A strong short demo is:
-
-1. Show the Dashboard and mission objective.
-2. Open Mission Planner and compare FASTEST / LOWEST_ENERGY / SAFEST.
-3. Start the Digital Twin simulation and inject a terrain obstruction.
-4. Show LunaGuard replanning from the rover's current position.
-5. Open Mission Timeline to show the resulting audit trail.
-6. Show Mission Copilot source grounding and IBM Bob development evidence.
-
----
-
-## Creator
-
-**Asma Ahmed Syrotikin**  
-Creator and developer of LunaGuard.
-
-https://github.com/asma675/LunaGaurd
----
+- [ ] Run the full judge demo without errors.
+- [ ] Configure watsonx so the Copilot visibly reports **Granite live** for the recorded video.
+- [ ] Capture Dashboard, Planner, Digital Twin recovery, Timeline, Copilot citations, and Data Sources screenshots.
+- [ ] Add a public GitHub URL.
+- [ ] Add the public ≤3 minute demo video.
+- [ ] Explain specifically how IBM Bob was used; see [`docs/BOB_USAGE.md`](docs/BOB_USAGE.md).
+- [ ] Complete the required IBM SkillsBuild activity.
+- [ ] Do not commit `.env` or secrets.
 
 ## License
 
-MIT — see `LICENSE`.
+MIT — see [`LICENSE`](LICENSE).

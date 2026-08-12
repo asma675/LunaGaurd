@@ -1,0 +1,445 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Custom Properties ─────────────────────────────────────────────── */
+:root {
+  --color-space-dark: #0a0e1a;
+  --color-panel-dark: #0d1526;
+  --color-card-dark: #111827;
+  --color-border-dim: #1e2d45;
+  --color-cyan: #00d4ff;
+  --color-ibm-blue: #0f62fe;
+  --color-violet: #7c3aed;
+  --color-green: #10b981;
+  --color-amber: #f59e0b;
+  --color-red: #ef4444;
+  --color-text-dim: #6b7280;
+  --color-text-muted: #9ca3af;
+}
+
+/* ─── Base Reset ─────────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--color-space-dark);
+  color: #f1f5f9;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Custom Scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #0d1526;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e2d45;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00d4ff44;
+}
+
+/* ─── Glassmorphism ──────────────────────────────────────────────────────── */
+.glass-panel {
+  background: rgba(13, 21, 38, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(30, 45, 69, 0.8);
+}
+
+.glass-card {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(30, 45, 69, 0.6);
+}
+
+/* ─── Glow Effects ───────────────────────────────────────────────────────── */
+.glow-cyan {
+  box-shadow: 0 0 16px rgba(0, 212, 255, 0.35), 0 0 4px rgba(0, 212, 255, 0.2);
+}
+.glow-violet {
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.35), 0 0 4px rgba(124, 58, 237, 0.2);
+}
+.glow-green {
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.35), 0 0 4px rgba(16, 185, 129, 0.2);
+}
+.glow-red {
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.4), 0 0 4px rgba(239, 68, 68, 0.25);
+}
+.glow-amber {
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.35), 0 0 4px rgba(245, 158, 11, 0.2);
+}
+
+/* ─── Scanline Overlay ───────────────────────────────────────────────────── */
+.scanline-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Keyframe Animations ────────────────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+  }
+  50% {
+    opacity: 0.75;
+    box-shadow: 0 0 24px rgba(0, 212, 255, 0.9), 0 0 48px rgba(0, 212, 255, 0.3);
+  }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(200%); opacity: 0; }
+}
+
+@keyframes route-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(-24px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(24px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-in-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes terrain-scan {
+  0% { transform: translateY(-100%); opacity: 0.5; }
+  100% { transform: translateY(100%); opacity: 0.5; }
+}
+
+/* ─── Utility animation classes ─────────────────────────────────────────── */
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-shimmer { animation: shimmer 1.5s infinite; }
+.animate-blink { animation: blink 1s step-end infinite; }
+.animate-pulse-ring { animation: pulse-ring 1.5s ease-out infinite; }
+.animate-slide-in-left { animation: slide-in-left 0.4s ease-out; }
+.animate-slide-in-right { animation: slide-in-right 0.4s ease-out; }
+.animate-slide-in-up { animation: slide-in-up 0.4s ease-out; }
+.animate-fade-in { animation: fade-in 0.3s ease-out; }
+.animate-terrain-scan { animation: terrain-scan 3s linear infinite; }
+
+/* ─── Shimmer loading ────────────────────────────────────────────────────── */
+.shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.02) 0%,
+    rgba(255,255,255,0.06) 50%,
+    rgba(255,255,255,0.02) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ─── SVG Route draw ─────────────────────────────────────────────────────── */
+.route-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: route-draw 2s ease-out forwards;
+}
+
+/* ─── Panel transitions ──────────────────────────────────────────────────── */
+.panel-reveal {
+  animation: slide-in-up 0.4s ease-out;
+}
+
+/* ─── Status indicator pulse ─────────────────────────────────────────────── */
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-green);
+  box-shadow: 0 0 6px var(--color-green);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.status-dot.offline {
+  background: var(--color-red);
+  box-shadow: 0 0 6px var(--color-red);
+}
+
+/* ─── Monospace numbers ──────────────────────────────────────────────────── */
+.font-mono-num {
+  font-family: 'IBM Plex Mono', 'Fira Code', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Custom range slider ────────────────────────────────────────────────── */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: #1e2d45;
+  outline: none;
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-cyan);
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(0, 212, 255, 0.5);
+  transition: box-shadow 0.2s;
+}
+input[type='range']::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.8);
+}
+input[type='range']::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-cyan);
+  cursor: pointer;
+  border: none;
+}
+
+
+/* ─── Production console surface ─────────────────────────────────────────── */
+.app-shell {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 45% -15%, rgba(15, 98, 254, 0.18), transparent 34%),
+    radial-gradient(circle at 80% 30%, rgba(124, 58, 237, 0.08), transparent 26%),
+    linear-gradient(180deg, #07111f 0%, #050b14 58%, #040910 100%);
+}
+
+.app-shell::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid rgba(0, 212, 255, 0.8);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba(15, 98, 254, 0.45);
+  color: white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── LunaGuard 2.0 multi-page shell ───────────────────────────────────── */
+html, body { overflow: auto; font-size: 16px; }
+body { min-height: 100%; }
+.page-wrap { width: min(1500px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 48px; }
+.page-title { font-size: clamp(1.65rem, 3vw, 2.5rem); line-height: 1.05; font-weight: 800; letter-spacing: -0.035em; }
+.page-kicker { font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #67e8f9; }
+.space-motion { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; background: radial-gradient(circle at 78% 18%, rgba(15,98,254,.13), transparent 28%), radial-gradient(circle at 22% 72%, rgba(138,63,252,.08), transparent 30%); }
+.space-motion::before, .space-motion::after { content: ''; position: absolute; inset: -25%; background-image: radial-gradient(circle, rgba(255,255,255,.9) 0 1px, transparent 1.4px), radial-gradient(circle, rgba(120,230,255,.65) 0 1px, transparent 1.5px); background-size: 92px 92px, 151px 151px; background-position: 0 0, 40px 28px; opacity: .22; animation: star-drift 46s linear infinite; }
+.space-motion::after { transform: scale(.72); opacity: .15; animation-duration: 72s; animation-direction: reverse; }
+@keyframes star-drift { from { transform: translate3d(0,0,0); } to { transform: translate3d(90px,150px,0); } }
+.mission-card { border: 1px solid rgba(148,163,184,.12); background: linear-gradient(180deg, rgba(15,23,42,.78), rgba(7,17,31,.84)); box-shadow: 0 18px 70px rgba(0,0,0,.22); backdrop-filter: blur(18px); }
+.hero-grid { background-image: linear-gradient(rgba(96,165,250,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(96,165,250,.035) 1px, transparent 1px); background-size: 34px 34px; }
+.soft-divider { border-color: rgba(148,163,184,.11); }
+
+@media (prefers-reduced-motion: reduce) { .space-motion::before, .space-motion::after { animation: none; } }
+
+/* Improve control-room readability inside the dense mission-planner console. */
+.planner-console .text-\[8px\] { font-size: 10px !important; }
+.planner-console .text-\[9px\] { font-size: 11px !important; }
+.planner-console .text-\[10px\] { font-size: 11px !important; }
+.planner-console .text-xs { font-size: 13px !important; line-height: 1.2rem !important; }
+
+/* ─── LunaGuard cosmic backdrop ─────────────────────────────────────────── */
+.space-motion {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(15,98,254,.15), transparent 28%),
+    radial-gradient(circle at 22% 72%, rgba(138,63,252,.10), transparent 30%),
+    linear-gradient(180deg, rgba(3,7,14,.12), rgba(3,7,14,.34));
+}
+.space-motion > * { position: absolute; pointer-events: none; }
+.space-nebula {
+  inset: -20%;
+  background:
+    radial-gradient(ellipse at 65% 26%, rgba(0,212,255,.08), transparent 28%),
+    radial-gradient(ellipse at 28% 70%, rgba(124,58,237,.10), transparent 31%),
+    radial-gradient(ellipse at 48% 45%, rgba(15,98,254,.05), transparent 38%);
+  filter: blur(22px);
+  animation: nebula-breathe 18s ease-in-out infinite alternate;
+}
+.space-planet {
+  border-radius: 999px;
+  opacity: .30;
+  filter: saturate(.85);
+  box-shadow: inset -28px -16px 42px rgba(0,0,0,.7), 0 0 48px rgba(59,130,246,.10);
+}
+.space-planet::before,
+.space-planet::after,
+.space-planet span {
+  content: '';
+  position: absolute;
+  border-radius: inherit;
+}
+.space-planet::before {
+  inset: 12%;
+  border: 1px solid rgba(255,255,255,.08);
+  opacity: .7;
+}
+.space-planet::after {
+  inset: 0;
+  background: linear-gradient(125deg, rgba(255,255,255,.18), transparent 28%, transparent 58%, rgba(0,0,0,.42));
+}
+.space-planet-a {
+  width: 154px;
+  height: 154px;
+  right: 5vw;
+  top: 12vh;
+  background:
+    radial-gradient(circle at 28% 33%, rgba(216,230,246,.45) 0 3%, transparent 4%),
+    radial-gradient(circle at 55% 63%, rgba(5,14,27,.38) 0 9%, transparent 10%),
+    radial-gradient(circle at 72% 40%, rgba(8,18,34,.35) 0 5%, transparent 6%),
+    linear-gradient(145deg, #7d8ca3, #2f3b52 68%, #111827);
+  animation: planet-drift-a 34s ease-in-out infinite alternate;
+}
+.space-planet-b {
+  width: 82px;
+  height: 82px;
+  left: 10vw;
+  top: 68vh;
+  background: linear-gradient(145deg, #6b8fb3, #25344f 70%);
+  opacity: .20;
+  animation: planet-drift-b 29s ease-in-out infinite alternate;
+}
+.space-planet-c {
+  width: 42px;
+  height: 42px;
+  left: 53vw;
+  top: 12vh;
+  background: linear-gradient(145deg, #8c81b8, #2a2448 70%);
+  opacity: .16;
+  animation: planet-drift-c 24s ease-in-out infinite alternate;
+}
+.space-orbit {
+  border: 1px solid rgba(125,211,252,.055);
+  border-radius: 50%;
+  transform: rotate(-18deg);
+}
+.space-orbit-a { width: 520px; height: 180px; right: -120px; top: 90px; }
+.space-orbit-b { width: 380px; height: 130px; left: -160px; bottom: 120px; transform: rotate(20deg); }
+
+@keyframes nebula-breathe {
+  from { transform: translate3d(-1.5%, -1%, 0) scale(1); opacity: .7; }
+  to { transform: translate3d(1.5%, 1%, 0) scale(1.04); opacity: 1; }
+}
+@keyframes planet-drift-a {
+  from { transform: translate3d(0, 0, 0) rotate(-3deg); }
+  to { transform: translate3d(-26px, 34px, 0) rotate(5deg); }
+}
+@keyframes planet-drift-b {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(28px, -22px, 0); }
+}
+@keyframes planet-drift-c {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(16px, 20px, 0); }
+}
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.animate-spin-slow { animation: spin-slow 18s linear infinite; }
+
+/* Larger default content type for control-room readability. */
+.page-wrap { font-size: 1.015rem; }
+.mission-card p { text-rendering: optimizeLegibility; }
+
+@media (max-width: 768px) {
+  .space-planet-a { width: 96px; height: 96px; right: -18px; opacity: .20; }
+  .space-planet-b { width: 58px; height: 58px; }
+  .space-orbit { opacity: .55; }
+}
+
+@media (min-width: 900px) {
+  html, body { font-size: 17px; }
+}

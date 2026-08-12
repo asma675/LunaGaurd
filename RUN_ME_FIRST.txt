@@ -1,0 +1,80 @@
+LUNAGUARD — QUICK START (WINDOWS)
+=================================
+
+1) Extract this ZIP to any normal folder, for example:
+   C:\Users\YOUR_NAME\OneDrive\Documents\LunaGuard_Production_Ready_2026
+
+2) Open Docker Desktop and wait until the Docker Engine is running.
+
+3) EASIEST: double-click START_LUNAGUARD.cmd
+
+   OR open PowerShell in this exact extracted folder and run:
+
+   docker compose up -d --build
+   docker compose ps
+
+4) Open:
+   http://localhost:3000
+
+5) API documentation:
+   http://localhost:8000/docs
+
+6) Optional stack verification after startup:
+   python scripts\verify_demo.py
+
+7) To stop LunaGuard:
+   docker compose down
+   OR double-click STOP_LUNAGUARD.cmd
+
+LIVE IBM WATSONX + GRANITE
+--------------------------
+Copy .env.example to .env and set:
+
+WATSONX_API_KEY=...
+WATSONX_PROJECT_ID=...
+WATSONX_URL=https://us-south.ml.cloud.ibm.com
+WATSONX_MODEL_ID=ibm/granite-3-3-8b-instruct
+
+Then rebuild:
+   docker compose down
+   docker compose up -d --build
+
+OPTIONAL IBM WATSON SPEECH
+--------------------------
+The Copilot includes microphone input and spoken answers.
+For IBM-hosted speech, configure:
+
+WATSON_TTS_API_KEY=...
+WATSON_TTS_URL=...
+WATSON_STT_API_KEY=...
+WATSON_STT_URL=...
+
+If those values are blank, LunaGuard uses browser speech features where supported.
+The Copilot has two selectable voice personalities: Luna and Atlas.
+
+OPTIONAL GOOGLE LOGIN
+---------------------
+Set GOOGLE_CLIENT_ID in .env. See docs\GOOGLE_AUTH.md.
+Local email/password accounts work without Google configuration.
+
+CREATOR LINKS
+-------------
+To show Asma's real social links in the About page and footer, set:
+
+NEXT_PUBLIC_CREATOR_LINKEDIN=https://www.linkedin.com/in/YOUR_PROFILE
+NEXT_PUBLIC_CREATOR_GITHUB=https://github.com/YOUR_PROFILE
+
+These are intentionally blank in the ZIP because no exact profile URLs were supplied.
+
+IBM BOB MCP BRIDGE
+------------------
+The project includes .bob\mcp.json and scripts\bob_mcp_server.py so IBM Bob
+can call the running LunaGuard API during development. See docs\BOB_RUNTIME_BRIDGE.md.
+
+IMPORTANT
+---------
+- Never publish .env or API keys.
+- Route terrain is deterministic synthetic simulation data.
+- Globe layers are generated visual proxies, not raw NASA imagery.
+- Copilot evidence sources are listed in the Data Sources page.
+- LunaGuard is decision-support software and is not certified flight software.

@@ -1,0 +1,17 @@
+{
+  "session": {
+    "limitWarnings": true
+  },
+  "approval": {
+    "allowed_permissions": [
+      "read",
+      "todo",
+      "execute",
+      "subtask",
+      "edit"
+    ]
+  },
+  "migrations": {
+    "legacyBobCodeTaskMigrationDone": true
+  }
+}

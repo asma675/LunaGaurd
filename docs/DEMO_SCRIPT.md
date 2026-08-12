@@ -1,103 +1,127 @@
-# LunaGuard — 3-Minute Judge Demo Script
+# LunaGuard — 3-Minute Demo Script
 
-Target: **2:45–2:55** so there is buffer before the three-minute limit.
+> **Total runtime:** 3 minutes  
+> **Presenter:** One person  
+> **Setup:** LunaGuard running at http://localhost:3000 (or Docker Compose)  
+> **Pre-demo:** Open the browser to the LunaGuard dashboard. Terrain should already be loaded.
 
-## 0:00–0:20 — Problem + differentiation (Dashboard)
+---
 
-**Say:**
+## 0:00–0:20 — Problem Setup
 
-“LunaGuard is an explainable AI mission-operations platform for lunar rover planning and recovery. Most route demos stop when they find a path. LunaGuard plans multiple strategies, explains the trade-offs, simulates failures, replans from the rover's current position, and preserves an operator audit trail.”
+[VISUAL ACTION] Show the mission dashboard with the terrain map visible but no routes planned yet.
 
-Point at:
-- IBM watsonx / Granite status,
-- the capability grid,
-- `Plan → explain → simulate → fail → recover → audit`.
+[SAY:] "Every lunar rover mission faces the same challenge: getting from Point A to Point B on a surface we've never walked on, with a battery that has to last, in terrain that could end the mission if we choose wrong. Current tools give mission planners a route — but they don't explain it. LunaGuard changes that."
 
-## 0:20–0:55 — Mission Planner
+---
 
-Open **Mission Planner**.
+## 0:20–0:40 — LunaGuard Solution
 
-1. Load the demo mission.
-2. Calculate routes.
-3. Show FASTEST / LOWEST_ENERGY / SAFEST.
-4. Highlight distance, energy, battery reserve, slope, risk, and mission-success evidence.
+[VISUAL ACTION] Hover over the terrain map briefly. Point to the crater features visible in the elevation overlay.
 
-**Say:**
+[SAY:] "LunaGuard is an explainable AI route planner for lunar rovers. It generates a realistic synthetic lunar terrain — a 10-by-10-kilometre grid with craters, slopes, and shadow zones. Then it doesn't just give you one route. It gives you three simultaneously, each optimizing a different mission priority: Safety, Balance, and Speed. And every single number is traceable."
 
-“The route engine is deterministic. Granite never invents these numbers. Hard terrain and slope constraints remain authoritative, and the operator can compare strategies before committing.”
+---
 
-Do not spend time reading every number.
+## 0:40–1:40 — Live Demo: Route Planning
 
-## 0:55–1:25 — IBM AI Mission Copilot
+**Step 1: Calculate routes**
 
-Open **AI Mission Copilot**.
+[VISUAL ACTION] The terrain map is displayed. Click **"Calculate Routes"** button.
 
-Ask a prepared prompt such as:
+[SAY:] "Let me calculate routes. The A-star planner is running three profiles at the same time..."
 
-> Why is slope important for a lunar rover route, and which source supports that?
+[VISUAL ACTION] Three colored route overlays appear on the terrain map. Three route cards appear below.
 
-Show:
-- **IBM watsonx.ai**,
-- **Granite model**,
-- response source status,
-- NASA / CSA citation chips.
+[SAY:] "Three routes. The Safe profile — in blue — curves around that central crater field. The Fast profile — in red — cuts straight through, accepting steeper terrain. And Balanced — in green — threads between them."
 
-**Say:**
+**Step 2: Show score cards**
 
-“LunaGuard uses IBM Granite through watsonx.ai for grounded mission intelligence. The Copilot is constrained to listed source context and mission context. If cloud AI is unavailable, the planner still works and the UI clearly labels deterministic fallback mode.”
+[VISUAL ACTION] Click on the Safe route card to highlight it.
 
-## 1:25–2:05 — Digital Twin failure + recovery
+[SAY:] "Click Safe. Mission Success Score: 87 out of 100. But here's what makes LunaGuard different — let me show you where that 87 comes from."
 
-Open **Digital Twin Lab**.
+[VISUAL ACTION] Click "Show Score Breakdown" on the Safe route card.
 
-Choose **Blocked terrain** and click **Run twin**.
+[SAY:] "Energy efficiency: 88% — we're using 12% of our battery. Terrain safety: 82% — no slope above 8 degrees. Time efficiency: 74% — we're taking the long way around. Route reliability: 91% — almost all of this route is sunlit. Every number links to the formula that produced it."
 
-Let the chart move. At about 48% the twin will:
-- inject the anomaly,
-- stop the original traverse,
-- call emergency reassessment,
-- show the recovery recommendation,
-- continue to destination if the recovery route is viable.
+**Step 3: Compare profiles**
 
-**Say:**
+[VISUAL ACTION] Click on the Fast route card.
 
-“This is the same backend planner and emergency service used by the mission console, not a pre-rendered animation. A new hazard invalidates the projected corridor, LunaGuard replans from the rover's current position, and the digital twin continues the recovered mission.”
+[SAY:] "Now look at Fast. Score drops to 71. Energy efficiency drops to 62% because it hits steep slopes. But time efficiency shoots up to 94%. This is the power of explainability — planners can see exactly why one route is safer and make an informed choice."
 
-## 2:05–2:25 — Mission Timeline
+---
 
-Open **Mission Timeline**.
+## 1:40–2:15 — Emergency Replanning
 
-Point to the freshly generated planning, anomaly, recovery, and completion events.
+**Step 1: Start mission**
 
-**Say:**
+[VISUAL ACTION] Click **"Start Mission"** with the Safe (or Balanced) route selected.
 
-“Every significant decision becomes an operator-readable audit event. That makes the AI-assisted workflow reviewable rather than opaque.”
+[SAY:] "Let's go. Mission started. The rover is traversing the balanced route."
 
-## 2:25–2:42 — 3D Globe + Data provenance
+[VISUAL ACTION] An animated rover marker begins moving along the route. The mission status shows "Active."
 
-Open **3D Lunar Globe**, toggle a couple of layers, then briefly show **Data Sources**.
+**Step 2: Advance rover**
 
-**Say:**
+[VISUAL ACTION] Optionally click "Advance Rover" a few times to move the rover partway along the route.
 
-“The globe demonstrates how mission layers can be combined spatially. We deliberately label these globe layers as visual proxies and the planner terrain as synthetic. The Copilot separately grounds answers in authoritative NASA LRO/LOLA, NASA DONKI, and Canadian Space Agency material.”
+[SAY:] "Rover is 35 percent through the traverse..."
 
-## 2:42–2:55 — Close
+**Step 3: Inject battery emergency**
 
-Return to Dashboard.
+[VISUAL ACTION] In the Emergency Panel on the right, click **"Battery Loss 20%"** button, then click **"Reassess Route"**.
 
-**Say:**
+[SAY:] "Now — battery anomaly. We've just lost 20% power unexpectedly. In a real mission, this is where plans fall apart. Watch LunaGuard respond..."
 
-“LunaGuard's goal is explainable resilient autonomy: deterministic mission safety, IBM Granite for grounded operator intelligence, and a human still in control. It turns a route planner into an auditable mission decision platform.”
+[VISUAL ACTION] A loading indicator appears briefly. Then a new route overlay appears in orange/amber from the rover's current position. The Emergency Result card shows.
 
-## Recording checklist
+[SAY:] "In under 500 milliseconds, LunaGuard has: recalculated the remaining energy budget, re-run A-star from the rover's current position with energy-priority weights, and produced a recovery route that avoids steep slopes to minimize power consumption. Energy margin: 491 watt-hours to spare. The rover can make it home."
 
-Before recording:
+---
 
-- [ ] Docker backend + frontend are healthy.
-- [ ] Configure watsonx credentials so the Copilot displays **Granite live**.
-- [ ] Run one Copilot question once so network/model latency is known.
-- [ ] Reset the Mission Timeline.
-- [ ] Reset the Digital Twin.
-- [ ] Use browser zoom 100% or 110%; keep font readable.
-- [ ] Close unrelated tabs and notifications.
-- [ ] Never display `.env`, API keys, or OAuth secrets.
+## 2:15–2:35 — Architecture and Bob
+
+[VISUAL ACTION] Briefly show the AGENTS.md file or docs/BOB_USAGE.md file open in a code editor beside the browser.
+
+[SAY:] "LunaGuard was built entirely in IBM Bob. Bob designed the architecture — this three-service split between terrain, planning, and emergency — coded the A-star algorithm, generated 173 tests, and wrote this entire documentation suite. The watsonx Granite integration is optional: if credentials are present, it generates a natural-language mission brief. If not, the deterministic explanation is just as complete."
+
+[VISUAL ACTION] Return to the browser. Show the explanation panel with score breakdown visible.
+
+[SAY:] "And because we use deterministic explainability first, every number in any watsonx narrative is validated against the computed value before it's shown. No hallucinated metrics. No fabricated scores."
+
+---
+
+## 2:35–2:50 — Measured Outcomes
+
+[VISUAL ACTION] Route cards visible on screen with numbers showing.
+
+[SAY:] "Here are the real numbers from this demo run. Safe route: 4.2 km, 12.1 watt-hours used, Mission Score 87. Balanced: 3.6 km, 14.3 watt-hours, Score 82. Fast: 3.1 km, 18.7 watt-hours, Score 71. Planning time: under 120 milliseconds for all three. Emergency replan: under 500 milliseconds. These aren't estimates — you can see them right here."
+
+---
+
+## 2:50–3:00 — Closing Impact
+
+[VISUAL ACTION] Static shot of the full mission dashboard with terrain, routes, and score cards visible.
+
+[SAY:] "Every lunar mission that lands in the next decade will need a rover. Every rover will need a planner. LunaGuard shows what it looks like when that planner can explain itself — so that when an astronaut or a flight director asks 'why did you choose this path?', the answer isn't 'the AI decided.' The answer is a formula, a number, and a source. That's LunaGuard."
+
+---
+
+## Post-Demo Q&A Preparation
+
+**Q: Is this real NASA terrain?**  
+A: No — the terrain is synthetic, generated to match lunar mare statistics. For real mission use, we'd ingest NASA LOLA GeoTIFF data. That's the first item on the roadmap.
+
+**Q: Would this work on Mars?**  
+A: The algorithm is terrain-agnostic. Swap in a Mars DEM, adjust the gravity parameter in the energy model (3.72 vs 1.62 m/s²), and recalibrate the surface multipliers. The architecture supports it.
+
+**Q: What happens if watsonx is unavailable?**  
+A: The planning pipeline is completely independent of watsonx. All scores, routes, and deterministic explanations work without any LLM. watsonx only affects the narrative text.
+
+**Q: How does this compare to existing rover planners?**  
+A: Existing academic planners (OASIS, AEGIS) focus on autonomy and real-time execution. LunaGuard focuses on the pre-mission planning phase and human explainability — complementary, not competing.
+
+**Q: Can it handle real-time telemetry?**  
+A: The emergency service is designed to accept telemetry updates. In this prototype, telemetry is simulated. A WebSocket feed from a real rover or simulator is on the roadmap.

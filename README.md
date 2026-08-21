@@ -521,30 +521,6 @@ lunaguard/
 ├── START_LUNAGUARD.cmd
 └── README.md
 ```
-
-## Submission checklist
-
-* [ ] Run the full judge demo without errors.
-* [ ] Verify the backend reports healthy.
-* [ ] Verify the frontend can reach the backend on port 8000.
-* [ ] Verify NASA API configuration without exposing the secret and confirm the Data Sources page reports the expected authenticated/demo status.
-* [ ] Configure either local IBM Granite or watsonx.ai for the recorded Copilot demonstration.
-* [ ] Confirm the Copilot visibly identifies its active AI/fallback mode.
-* [ ] Run the Validation Lab and capture genuine measured results.
-* [ ] Capture Dashboard, Planner, Validation Lab, Digital Twin recovery, Timeline, Copilot evidence, Globe, and Data Sources screenshots.
-* [ ] Confirm **NASA LOLA active** is visible for the real-terrain demo and verify the imported terrain source is correctly labeled.
-* [ ] Test both dark and light mode and the collapsible sidebar.
-* [ ] Confirm LinkedIn and GitHub creator links.
-* [ ] Add the public GitHub repository URL.
-* [ ] Add the publicly accessible demo video of **3 minutes maximum**.
-* [ ] Explain specifically how IBM Bob was used; see [`docs/BOB_USAGE.md`](docs/BOB_USAGE.md).
-* [ ] Complete and upload the required IBM SkillsBuild activity certificate.
-* [ ] Confirm `.env` is ignored by Git.
-* [ ] Confirm no NASA, IBM, Google, or other secret API keys are committed.
-* [ ] Regenerate any secret that has previously been publicly exposed.
-* [ ] Publish the final challenge project page before the submission deadline.
-
-
 ## Judge-visible proof points
 
 For the three-minute demo, the strongest evidence is visible directly in the running product:

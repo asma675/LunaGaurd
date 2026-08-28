@@ -1,5 +1,7 @@
 # LunaGuard
 
+[Vid Demo: ](https://www.youtube.com/watch?v=XLtyJJ_3Y8s)
+Submisson link: https://aibuilderschallenge-bobhub.bemyapp.com/#/projects/6a7bbe8c83ceb813d0276c3a
 ## Explainable Resilient Autonomy for Lunar Missions
 
 > **AI Builders Challenge with IBM Bob — August 2026: Advance Space Exploration with AI**
